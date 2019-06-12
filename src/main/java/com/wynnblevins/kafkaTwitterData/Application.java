@@ -1,4 +1,4 @@
-package com.wynnblevins.twitterstream;
+package com.wynnblevins.kafkaTwitterData;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
