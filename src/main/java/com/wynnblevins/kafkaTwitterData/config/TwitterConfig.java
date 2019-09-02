@@ -9,7 +9,7 @@ public class TwitterConfig {
 		Properties props = new Properties();
 		
 		try {
-			props.load(TwitterConfig.class.getResourceAsStream("/application.properties"));
+			props.load(TwitterConfig.class.getResourceAsStream("/application.yml"));
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

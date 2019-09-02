@@ -36,9 +36,9 @@ public class ClientFactory {
         // These secrets should be read from a config file
         Authentication hosebirdAuth = new OAuth1(
         		(String) props.get("consumerKey"), 
-        		(String) props.get("consumerSecret"), 
-        		(String) props.get("token"), 
-        		(String) props.getProperty("secret"));
+        		(String) props.get("consumerKeySecret"), 
+        		(String) props.get("accessToken"), 
+        		(String) props.getProperty("accessTokenSecret"));
 
         ClientBuilder builder = new ClientBuilder()
                 .name("Hosebird-Client-01") // optional: mainly for the logs

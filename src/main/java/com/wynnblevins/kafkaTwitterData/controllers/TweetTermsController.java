@@ -31,7 +31,6 @@ public class TweetTermsController {
 		this.termsCache = termsCache;
 	}
 	
-	@CrossOrigin(origins="http://localhost:4200")
 	@GetMapping("/tweets") 
 	public void startTweetsFeed() {
 		// begins putting tweet data into kafka topic
