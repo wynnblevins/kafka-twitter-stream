@@ -17,7 +17,6 @@ import com.twitter.hbc.core.endpoint.StatusesFilterEndpoint;
 import com.twitter.hbc.core.processor.StringDelimitedProcessor;
 import com.twitter.hbc.httpclient.auth.Authentication;
 import com.twitter.hbc.httpclient.auth.OAuth1;
-import com.wynnblevins.kafkaTwitterData.config.TwitterConfig;
 import com.wynnblevins.kafkaTwitterData.model.Term;
 
 @Component
@@ -30,15 +29,12 @@ public class ClientFactory {
         List<String> strs = set.stream().map(term -> term.getValue()).collect(Collectors.toList());
         hosebirdEndpoint.trackTerms(strs);   
         
-        TwitterConfig config = new TwitterConfig();
-        Properties props = config.getTwitterConfig();
-        
         // These secrets should be read from a config file
         Authentication hosebirdAuth = new OAuth1(
         		(String) props.get("consumerKey"), 
-        		(String) props.get("consumerKeySecret"), 
-        		(String) props.get("accessToken"), 
-        		(String) props.getProperty("accessTokenSecret"));
+        		(String) props.get("consumerSecret"), 
+        		(String) props.get("token"), 
+        		(String) props.get("secret"));
 
         ClientBuilder builder = new ClientBuilder()
                 .name("Hosebird-Client-01") // optional: mainly for the logs
