@@ -1,9 +1,6 @@
 package com.wynnblevins.kafkaTwitterData.producer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -31,7 +29,9 @@ public class TwitterProducer {
     private Logger logger = LoggerFactory.getLogger(TwitterProducer.class.getName());
     
     private SafeProducerFactory<String, String> producerFactory = new SafeProducerFactory<String, String>();
-    private ClientFactory clientFactory = new ClientFactory();
+    
+    @Autowired
+    private ClientFactory clientFactory;
         
     public TwitterProducer() {}
 
