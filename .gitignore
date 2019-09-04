@@ -55,4 +55,5 @@ tmp/
 
 build/
 
+application.properties
 .gradle
