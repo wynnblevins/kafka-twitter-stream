@@ -31,4 +31,8 @@ public class TermsCacheService {
 	public void setTerms(Set<Term> terms) {
 		this.terms = terms;
 	}
+	
+	public void empty() {
+		this.terms.clear();
+	}
 }

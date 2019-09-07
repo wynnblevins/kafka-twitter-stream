@@ -6,8 +6,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import com.twitter.hbc.ClientBuilder;
