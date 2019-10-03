@@ -2,87 +2,60 @@ package com.wynnblevins.kafkaTwitterData.controllers;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wynnblevins.kafkaTwitterData.model.Term;
-import com.wynnblevins.kafkaTwitterData.producer.TwitterProducer;
-import com.wynnblevins.kafkaTwitterData.service.TermsCacheService;
+import com.wynnblevins.kafkaTwitterData.service.TermsService;
 
 @RestController
 public class TweetTermsController {
-	@Autowired
-	private TermsCacheService termsCache;
+	private final TermsService termsService;   
 	
-	@Autowired
-	private TwitterProducer twitterProducer;
-	
-	public TermsCacheService getTermsCache() {
-		return termsCache;
-	}
-
-	public void setTermsCache(TermsCacheService termsCache) {
-		this.termsCache = termsCache;
+	public TweetTermsController(final TermsService termsService) {
+		this.termsService = termsService;
 	}
 	
-	@GetMapping("/tweets") 
-	public void startTweetsFeed() {
-		twitterProducer.stop();
-		
-		Set<Term> terms = this.termsCache.getTerms();
-		
-		// begins putting tweet data into kafka topic
-		twitterProducer.run(terms);
+	@RequestMapping(method = RequestMethod.GET, 
+			path = "/stream/{streamId}/terms")
+	public Set<Term> getAllStreamTerms(@PathVariable("streamId") String streamId) {
+		return this.termsService.getTerms();
 	}
 	
-	@GetMapping("/terms")
-	public Set<Term> getTerms() {
-		return this.termsCache.getTerms();
+	@RequestMapping(method = RequestMethod.GET, 
+			path = "/terms/{termId}")
+	public Term getTermById(@PathVariable("termId") String termId) {
+		return this.termsService.getTermById(termId);
 	}
 	
-	@PostMapping("/terms")
-	public void addTerms(@RequestBody Set<Term> termSet) {
-		boolean restartNeeded = this.twitterProducer.isRunning();
-		
-		if (this.twitterProducer.isRunning()) {
-			this.twitterProducer.stop();
-		}
-		
-		for (Term term : termSet) {
-			this.termsCache.addTerm(term);
-		}
-		
-		if (restartNeeded) {
-			this.twitterProducer.run(termSet);
-		}
+	@RequestMapping(method = RequestMethod.POST, 
+			path = "/streams/{streamId}/terms")
+	public Term addTerm(@PathVariable String streamId, 
+			@RequestBody Term term) {
+		return this.termsService.addStreamTerm(streamId, term);
 	}
 	
-	@DeleteMapping("/terms/{id}")
-	public void deleteTerm(@PathVariable String id) {
-		boolean restartNeeded = this.twitterProducer.isRunning();
-		
-		if (this.twitterProducer.isRunning()) {
-			this.twitterProducer.stop();
-		}
-		
-		Set<Term> termSet = this.termsCache.removeTermById(id);
-		
-		if (restartNeeded) {
-			this.twitterProducer.run(termSet);
-		}
+	@RequestMapping(method = RequestMethod.DELETE, 
+			path = "/terms/{termId}")
+	public void deleteTermByID(@PathVariable("streamId") String streamId,
+			@PathVariable("termId") String termId) {
+		this.termsService.deleteTermById(termId);
 	} 
 	
-	@DeleteMapping("/terms")
-	public void emptyTermsSet() {
-		if (this.twitterProducer.isRunning()) {
-			this.twitterProducer.stop();
-		}
-		
-		this.termsCache.empty();
+	@RequestMapping(method = RequestMethod.DELETE, 
+			path = "/stream/{streamId}/terms")
+	public void emptyTermsSet(@PathVariable("streamId") String streamId) {
+		this.termsService.emptyTermsForStream(streamId);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, 
+			path = "/terms/{termId}")
+	public Term updateStreamTerm(@PathVariable("streamId") String streamId,
+			@PathVariable("termId") String termId,
+			@RequestBody Term term) {
+		return this.termsService.updateStreamTerm(streamId, term);
 	}
 }

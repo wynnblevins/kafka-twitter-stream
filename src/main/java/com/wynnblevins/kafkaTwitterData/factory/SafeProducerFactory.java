@@ -32,6 +32,8 @@ public class SafeProducerFactory<k extends Object, v extends Object> {
         // create the producer
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
         
+        // TODO: save the producer to the DB 
+        
         return producer;
     }
 }

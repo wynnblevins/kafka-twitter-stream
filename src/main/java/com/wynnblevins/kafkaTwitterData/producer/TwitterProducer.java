@@ -18,7 +18,7 @@ import com.wynnblevins.kafkaTwitterData.factory.ClientFactory;
 import com.wynnblevins.kafkaTwitterData.factory.SafeProducerFactory;
 import com.wynnblevins.kafkaTwitterData.model.Term;
 import com.wynnblevins.kafkaTwitterData.model.Tweet;
-import com.wynnblevins.kafkaTwitterData.service.TermsCacheService;
+import com.wynnblevins.kafkaTwitterData.repository.TermRepository;
 
 import org.apache.kafka.clients.producer.*;
 
@@ -28,16 +28,19 @@ public class TwitterProducer {
     private SafeProducerFactory<String, String> producerFactory = new SafeProducerFactory<String, String>();
     private boolean isRunning = false;
     private ClientFactory clientFactory;
-    private TermsCacheService termsCacheService;
     private Thread twitterThread;
+    private TermRepository termRepository;  // TODO replace terms cache with a spring repository
     	    
     @Autowired
-    public TwitterProducer(ClientFactory clientFactory, TermsCacheService termsCacheService) {
-    	this.termsCacheService = termsCacheService;
+    public TwitterProducer(ClientFactory clientFactory,
+    		TermRepository termRepository) {
+    	this.termRepository = termRepository;
     	this.clientFactory = clientFactory;
     }
     
     private Thread createThread() {
+    	Set<Term> termsSet = (Set<Term>) termRepository.findAll();
+    	
     	return new Thread(new Runnable(){
     		@Override
     	    public void run() {
@@ -47,7 +50,6 @@ public class TwitterProducer {
     	        BlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>(1000);
 
     	        // create a twitter client and attempt to establish a connection.
-    	        Set<Term> termsSet = termsCacheService.getTerms();
     	        Client client = clientFactory.createTwitterClient(msgQueue, termsSet);
     	        client.connect();
     	        
