@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="initial-schema" author="wblevins">
+        <createTable tableName="stream">
+            <column name="id" type="varchar(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="running" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="term_stream">
+            <column name="id" type="varchar(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="term_text" type="varchar(280)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stream_id" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stock_id" type="varchar(32)">
+            	<constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="stock">
+            <column name="id" type="varchar(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
