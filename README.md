@@ -34,3 +34,35 @@ To remove the docker container the previous command listed, replace "ContainerID
 ```
 sudo docker container rm -f ContainerID
 ```
+
+## Initial Database Setup
+The database should be run in a docker postgres container.  To start the postgresql database in docker container run the following.
+```
+sudo docker run --rm --name pg-docker -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
+```
+
+### Create/Scaffold Database With Liquibase
+Run the following command to get the container id of the postgres database you stood up in the previous step.
+```
+docker container ls
+```
+
+Use id of the postgres container (see previous step) to open a shell inside the docker container:
+```
+docker exec -it {container_id} bash
+``` 
+
+Log into the postgresql database by running:
+```
+psql -U postgres 
+```
+
+Create the database schema with the following command:
+```
+CREATE DATABASE kafkatwitterstream;
+```
+
+To scaffold the database schema, run the following command:
+```
+liquibase --driver=org.postgresql.Driver --classpath=postgresql-42.2.8.jar --changeLogFile="src/main/resources/db/db.changelog-master.xml" --url=jdbc:postgresql://localhost:5432/kafkatwitterstream --username=postgres --password=postgres update
+```
