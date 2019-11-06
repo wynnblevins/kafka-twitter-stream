@@ -1,0 +1,16 @@
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/kefka-twitter-stream
+        username: postgres
+        password:
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+    
+twitter:
+    consumerKey:
+    consumerKeySecret:
+    accessToken:
+    accessTokenSecret:

@@ -64,5 +64,15 @@ CREATE DATABASE kafkatwitterstream;
 
 To scaffold the database schema, run the following command:
 ```
-liquibase --driver=org.postgresql.Driver --classpath=postgresql-42.2.8.jar --changeLogFile="src/main/resources/db/db.changelog-master.xml" --url=jdbc:postgresql://localhost:5432/kafkatwitterstream --username=postgres --password=postgres update
+liquibase --driver=org.postgresql.Driver --classpath=postgresql-42.2.8.jar --changeLogFile="src/main/resources/db/changelog/db.changelog-master.yaml" --url=jdbc:postgresql://localhost:5432/kafkatwitterstream --username=postgres --password=password update
+```
+
+Exit the postgresql command line:
+```
+\q
+```
+
+...And exit out of the docker container and back to your shell.
+```
+exit
 ```

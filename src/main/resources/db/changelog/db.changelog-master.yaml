@@ -1,0 +1,106 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_initial_schema
+      author: wblevins
+      changes:
+        - createTable:
+            tableName: stock
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: company
+                  type: varchar(255)
+              - column:
+                  name: share_value
+                  type: money
+        - createTable:
+            tableName: term
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: term_text
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stock_id
+                  type: varchar(36)
+              - column:
+                  name: term_stream_id
+                  type: varchar(36)
+                  constraints:
+                     nullable: false
+              - addForeignKeyConstraint:
+                  baseColumnNames: term_stream_id
+                  baseTableName: term
+                  constraintName: fk_term_stream_id
+                  deferrable: true
+                  initiallyDeferred: true
+                  onDelete: CASCADE
+                  onUpdate: RESTRICT
+                  referencedColumnNames: id
+                  referencedTableName: stream
+        - createTable:
+            tableName: term_stream
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: term_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stream_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - addForeignKeyConstraint:
+                  baseColumnNames: stream_id
+                  baseTableName: term_stream
+                  constraintName: fk_term
+                  deferrable: true
+                  initiallyDeferred: true
+                  onDelete: CASCADE
+                  onUpdate: RESTRICT
+                  referencedColumnNames: id
+                  referencedTableName: stream
+              - addForeignKeyConstraint:
+                  baseColumnNames: term_id
+                  baseTableName: term_stream
+                  constraintName: fk_stream
+                  deferrable: true
+                  initiallyDeferred: true
+                  onDelete: CASCADE
+                  onUpdate: RESTRICT
+                  referencedColumnNames: id
+                  referencedTableName: term
+        - createTable:
+            tableName: stream
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: running
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
