@@ -1,16 +1,20 @@
+server:
+    servlet:
+        context-path: /api
+
 spring:
     datasource:
         driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://localhost:5432/kefka-twitter-stream
+        url: jdbc:postgresql://localhost:5432/kafkatwitterstream
         username: postgres
-        password:
+        password: postgres
     jpa:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
     
 twitter:
-    consumerKey:
-    consumerKeySecret:
-    accessToken:
-    accessTokenSecret:
+    consumerKey: SHoItbsbMW2hAQfplmr0abpAQ
+    consumerKeySecret: 8VfbQtDn4bP1833aJZy7dtWW4UI8men9g4FVaU7I2T0xtXImPJ
+    accessToken: 980571830040911873-CA7NGViy4fCP3TFcJHo8vZyTttOj4t9
+    accessTokenSecret: NKBxGn7Z2pMBDs8x6oabVc8RrNkzZx3dcuihf7q2ivXl7
