@@ -2,7 +2,7 @@ package com.wynnblevins.kafkaTwitterData.testUtils;
 
 import com.wynnblevins.kafkaTwitterData.model.Stock;
 import com.wynnblevins.kafkaTwitterData.model.Term;
-import com.wynnblevins.kafkaTwitterData.model.TermStream;
+import com.wynnblevins.kafkaTwitterData.model.TweetStream;
 import java.math.BigDecimal;
 
 public class MockDataProducer {
@@ -21,12 +21,12 @@ public class MockDataProducer {
         return dummyStock;
     }
 
-    public static TermStream createTermStream(String termId, String termValue, String ticker,
+    public static TweetStream createTermStream(String termId, String termValue, String ticker,
         String companyName) {
-        TermStream dummyTermStream = new TermStream();
-        dummyTermStream.setId("00000000-0000-0000-0000-000000000000");
-        dummyTermStream.setStock(createDummyStock(ticker, companyName));
-        dummyTermStream.setTerm(createDummyTerm(termId, termValue));
-        return dummyTermStream;
+        TweetStream dummyTweetStream = new TweetStream();
+        dummyTweetStream.setId("00000000-0000-0000-0000-000000000000");
+        dummyTweetStream.setStock(createDummyStock(ticker, companyName));
+        dummyTweetStream.setTerm(createDummyTerm(termId, termValue));
+        return dummyTweetStream;
     }
 }

@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.wynnblevins.kafkaTwitterData.MockMvcTest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -19,6 +20,7 @@ public class TermControllerTest extends MockMvcTest {
         this.mvc = MockMvcBuilders.standaloneSetup(TermController.class).build();
     }
 
+    @Ignore
     @Test
     public void getTerms_ThreeTermsInDB_ReturnsThreeTerms() throws Exception {
         this.mvc.perform(get("/streams"))

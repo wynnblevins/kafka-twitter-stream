@@ -10,10 +10,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "term_stream")
-public class TermStream {
-    public TermStream() {}
+public class TweetStream {
+    public TweetStream() {}
 
-    public TermStream(Term term, Stock stock) {
+    public TweetStream(Term term, Stock stock) {
         this.term = term;
         this.stock = stock;
     }
